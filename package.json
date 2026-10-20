@@ -1,0 +1,13 @@
+{
+  "name": "hostel-connect",
+  "version": "1.0.0",
+  "description": "Hostel food sharing and ordering web app for college students",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["hostel", "food-sharing", "college", "marketplace", "chat"],
+  "author": "HostelConnect Team",
+  "license": "MIT"
+}

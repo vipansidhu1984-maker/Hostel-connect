@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="brownieBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FBF8EE"/>
+      <stop offset="100%" stop-color="#EBE3D0"/>
+    </linearGradient>
+    <linearGradient id="cakeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3D1E0C"/>
+      <stop offset="50%" stop-color="#2B1408"/>
+      <stop offset="100%" stop-color="#1B0C04"/>
+    </linearGradient>
+    <linearGradient id="fudgeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4E230B"/>
+      <stop offset="100%" stop-color="#241005"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="450" fill="url(#brownieBg)"/>
+  
+  <!-- Plate -->
+  <ellipse cx="300" cy="330" rx="190" ry="60" fill="#E8DEC8"/>
+  <ellipse cx="300" cy="324" rx="180" ry="54" fill="#FAF6ED"/>
+  
+  <!-- Brownie 3D Isometric slice -->
+  <!-- Side bottom -->
+  <polygon points="210,240 340,310 340,345 210,275" fill="#200E05"/>
+  <!-- Front bottom -->
+  <polygon points="340,310 410,265 410,300 340,345" fill="#180A04"/>
+  <!-- Top surface -->
+  <polygon points="210,240 280,195 410,265 340,310" fill="url(#cakeGrad)"/>
+  
+  <!-- Crinkly crackled crust details -->
+  <path d="M240 230 Q270 240 310 235 T370 255" stroke="#754224" stroke-width="2" fill="none" opacity="0.6"/>
+  <path d="M260 215 Q290 220 330 210 T380 235" stroke="#754224" stroke-width="1.5" fill="none" opacity="0.5"/>
+  
+  <!-- Melted chocolate sauce / fudge drip -->
+  <path d="M280 195 Q300 230 310 250 Q315 280 322 320 Q325 325 328 320 Q335 285 340 310 Q350 280 380 270 Q410 265 410 265" fill="none" stroke="#220D04" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="323" cy="332" r="7" fill="#220D04"/>
+  <circle cx="365" cy="322" r="5" fill="#220D04"/>
+  
+  <!-- Walnuts / Choco chunks on top -->
+  <ellipse cx="295" cy="225" rx="9" ry="6" fill="#DDB282"/>
+  <ellipse cx="345" cy="255" rx="8" ry="5" fill="#3A1D0B"/>
+  <ellipse cx="265" cy="245" rx="11" ry="7" fill="#DDB282"/>
+  
+  <!-- Steam/Aroma lines -->
+  <path d="M290 170 Q280 145 295 125 T290 95" stroke="#CBB9A0" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.6"/>
+  <path d="M330 160 Q345 135 330 115 T335 85" stroke="#CBB9A0" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.6"/>
+
+  <rect x="20" y="20" width="150" height="36" rx="18" fill="#5C3B1E" opacity="0.9"/>
+  <text x="95" y="43" fill="#FAF7F0" font-family="'Plus Jakarta Sans', sans-serif" font-weight="700" font-size="14" text-anchor="middle">🍫 MIDNIGHT FUDGE</text>
+</svg>

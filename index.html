@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HostelConnect | College Hostel Food Sharing & Chat</title>
+  <meta name="description" content="A light, friendly campus food-sharing marketplace for college students living in hostels. Upload extra food, set price tags, and chat directly to order.">
+  <meta name="theme-color" content="#FAF7F0">
+
+  <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- =========================================================================
+       Application Header
+       ========================================================================= -->
+  <header class="app-header" id="appHeader">
+    <div class="header-container">
+      <div class="brand-wrapper" onclick="switchView('marketplace')">
+        <div class="brand-logo-icon">🌿</div>
+        <div class="brand-title">
+          HostelConnect
+          <span class="tagline">Campus Food & Stash Hub</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- User Identity Badge (Click to switch user/room) -->
+        <div class="user-profile-badge" id="userProfileBadge" title="Click to change your Room or Name">
+          <div class="user-avatar-mini" id="headerUserAvatar">👤</div>
+          <div class="user-meta-text">
+            <span class="user-meta-name" id="headerUserName">Guest Student</span>
+            <span class="user-meta-room" id="headerUserRoom">Set Room ID</span>
+          </div>
+          <button class="switch-user-btn" aria-label="Switch Profile">🔄</button>
+        </div>
+
+        <!-- My Chats Button with Badge -->
+        <button class="btn btn-secondary btn-icon-relative" onclick="switchView('my-chats')" title="Hostel Chats">
+          <span>💬</span>
+          <span class="badge-counter" id="headerChatsBadge" style="display:none;">0</span>
+        </button>
+
+        <!-- "List Your Food" Primary CTA -->
+        <button class="btn btn-primary btn-open-upload">
+          <span>➕</span>
+          <span>List Food</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       Hero Banner: Warm Cream & Matcha Tone
+       ========================================================================= -->
+  <section class="hero-banner" id="heroBanner">
+    <div class="hero-container">
+      <div class="hero-text">
+        <h1>Got Extra Food? <span class="highlight">Share & Sell</span> to Rooms Nearby.</h1>
+        <p>
+          Whether it’s extra midnight Maggi, mom's fresh tiffin, or cold brews, list your items with a price tag. Fellow hostel mates order directly via in-room chat!
+        </p>
+        <div class="hero-chips">
+          <div class="hero-chip">
+            <span class="pulse-dot"></span>
+            <span>18 Hostel Rooms Active Tonight</span>
+          </div>
+          <div class="hero-chip">
+            <span>🛵 Avg. Room Drop: 5 mins</span>
+          </div>
+          <div class="hero-chip">
+            <span>💸 UPI / Cash on Room Delivery</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-quick-list-cta">
+        <h3>Have Food Right Now?</h3>
+        <p>It takes only 30 seconds to snap a pic, set a price, and get orders from your wing.</p>
+        <button class="btn btn-primary btn-open-upload" style="width:100%;">
+          <span>🍳</span>
+          <span>List My Stash</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       View Navigation Tabs
+       ========================================================================= -->
+  <nav class="view-tabs-container">
+    <button class="view-tab-btn active" data-view="marketplace">
+      <span>🍲</span>
+      <span>Hostel Marketplace</span>
+    </button>
+    <button class="view-tab-btn" data-view="my-listings">
+      <span>📦</span>
+      <span>My Food Stash</span>
+    </button>
+    <button class="view-tab-btn" data-view="my-chats">
+      <span>💬</span>
+      <span>Room Chats & Orders</span>
+    </button>
+  </nav>
+
+  <!-- =========================================================================
+       Marketplace Section
+       ========================================================================= -->
+  <section id="marketplaceSection">
+    <!-- Filters & Search Toolbar -->
+    <div class="filters-section">
+      <div class="toolbar-top">
+        <div class="search-box-wrapper">
+          <span class="search-icon">🔍</span>
+          <input 
+            type="text" 
+            id="foodSearchInput" 
+            class="search-input" 
+            placeholder="Search hot Maggi, mom's tiffin, cold coffee, room 304..." 
+            aria-label="Search food items"
+          >
+          <button id="clearSearchBtn" class="clear-search-btn" aria-label="Clear Search">✖</button>
+        </div>
+
+        <div class="toolbar-controls">
+          <!-- Sort Dropdown -->
+          <select id="sortSelect" class="sort-select" aria-label="Sort food listings">
+            <option value="recommended">🌟 Recommended</option>
+            <option value="price-low">💰 Price: Low to High</option>
+            <option value="price-high">💎 Price: High to Low</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Grid Content -->
+    <main class="main-content">
+      <div class="food-grid" id="foodGrid">
+        <!-- Rendered dynamically by JavaScript -->
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state" id="emptyFoodState" style="display: none;">
+        <div class="empty-state-icon">🍳</div>
+        <h3>No food items listed yet</h3>
+        <p>Got extra Maggi, home snacks, or drinks? Be the first to list and sell to students in your hostel!</p>
+        <button class="btn btn-primary btn-open-upload">
+          <span>➕</span> List Your Food
+        </button>
+      </div>
+    </main>
+  </section>
+
+  <!-- =========================================================================
+       My Listings View
+       ========================================================================= -->
+  <section id="myListingsSection" class="main-content" style="display: none;">
+    <div id="myListingsContainer">
+      <!-- Rendered dynamically by JavaScript -->
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       My Chats View
+       ========================================================================= -->
+  <section id="myChatsSection" class="main-content" style="display: none;">
+    <div id="myChatsContainer">
+      <!-- Rendered dynamically by JavaScript -->
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       Modal 1: Student Login & Room ID
+       ========================================================================= -->
+  <div class="modal-backdrop" id="loginModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>
+          <span>🏨</span>
+          <span>Hostel Student Login</span>
+        </h2>
+        <button class="close-modal-btn" aria-label="Close">&times;</button>
+      </div>
+
+      <form id="loginForm">
+        <div class="modal-body">
+          <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+            Enter your name and room number to start listing and ordering food from hostel mates.
+          </p>
+
+          <div class="form-group">
+            <label for="loginNameInput">Your Name <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="loginNameInput" 
+              class="form-control" 
+              placeholder="e.g. Rahul Sharma" 
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="loginRoomInput">Room Number <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="loginRoomInput" 
+              class="form-control" 
+              placeholder="e.g. 204" 
+              required
+            >
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost modal-cancel-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary">
+            <span>🚀</span>
+            <span>Enter HostelConnect</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       Modal 2: Upload / List Food Item
+       ========================================================================= -->
+  <div class="modal-backdrop" id="uploadModal">
+    <div class="modal-card" style="max-width: 540px;">
+      <div class="modal-header">
+        <h2>
+          <span>🍳</span>
+          <span>List Food on Hostel Feed</span>
+        </h2>
+        <button class="close-modal-btn" aria-label="Close">&times;</button>
+      </div>
+
+      <form id="uploadFoodForm">
+        <div class="modal-body">
+          <div id="uploadSellerPreview" style="font-size: 0.8rem; font-weight: 600; color: var(--green-primary); background: var(--green-mint-soft); padding: 0.4rem 0.8rem; border-radius: var(--radius-full); margin-bottom: 1rem; display: inline-block;">
+            Listing as: Student
+          </div>
+
+          <div class="form-group">
+            <label for="foodTitleInput">Food Item Name <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="foodTitleInput" 
+              class="form-control" 
+              placeholder="e.g. Double Masala Cheese Maggi or Fresh Theplas" 
+              required
+            >
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="foodPriceInput">Price in ₹ <span class="required">*</span></label>
+              <input 
+                type="number" 
+                id="foodPriceInput" 
+                class="form-control" 
+                placeholder="40" 
+                min="0" 
+                step="5" 
+                required
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="foodPortionsInput">Portions Available</label>
+              <input 
+                type="number" 
+                id="foodPortionsInput" 
+                class="form-control" 
+                value="1" 
+                min="1" 
+                max="20"
+              >
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="foodDeliveryTypeSelect">Delivery Preference</label>
+            <select id="foodDeliveryTypeSelect" class="form-control">
+              <option value="pickup">Buyer picks up from my room</option>
+              <option value="delivery">I can deliver to buyer room</option>
+              <option value="both" selected>Both Pickup or Room Drop</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="foodDescInput">Description / Extra Notes</label>
+            <textarea 
+              id="foodDescInput" 
+              class="form-control" 
+              rows="2" 
+              placeholder="e.g. Extra spicy, comes with sweet chutney, bring your own bowl..."
+            ></textarea>
+          </div>
+
+          <!-- Camera Photo Upload (Only Option) -->
+          <div class="form-group">
+            <label>Food Photo (Camera) <span class="required">*</span></label>
+            <input type="hidden" id="selectedPresetImg" value="">
+            
+            <div class="camera-upload-box" id="cameraUploadTrigger">
+              <input 
+                type="file" 
+                id="foodImageFile" 
+                accept="image/*" 
+                capture="environment" 
+                style="display: none;"
+              >
+              <div class="camera-prompt-content" id="cameraPromptContent">
+                <div class="camera-icon-circle">📷</div>
+                <div class="camera-text-main">Take Photo with Camera</div>
+                <div class="camera-text-sub">Tap to open your camera and capture your food item</div>
+              </div>
+
+              <div class="camera-preview-wrapper" id="cameraPreviewWrapper" style="display: none;">
+                <img id="uploadPhotoPreview" src="" alt="Captured Food Photo">
+                <button type="button" class="btn btn-secondary retake-photo-btn" id="retakePhotoBtn">
+                  🔄 Retake Photo
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost modal-cancel-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary">
+            <span>✨</span>
+            <span>Publish to Hostel</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       In-App Chat Drawer & Order System
+       ========================================================================= -->
+  <div class="modal-backdrop" id="chatBackdrop" style="background: rgba(0,0,0,0.25);"></div>
+
+  <aside class="chat-drawer" id="chatDrawer" aria-label="Hostel Room Chat">
+    <!-- Chat Header -->
+    <div class="chat-header">
+      <div class="chat-partner-info">
+        <div class="chat-partner-avatar" id="chatPartnerAvatar">
+          🍲
+          <span class="chat-online-dot"></span>
+        </div>
+        <div class="chat-partner-names">
+          <h3 id="chatPartnerName">Seller Name</h3>
+          <span class="chat-partner-room" id="chatPartnerRoom">Room 304 • Online</span>
+        </div>
+      </div>
+      <button class="close-modal-btn" id="closeChatDrawerBtn" aria-label="Close Chat">&times;</button>
+    </div>
+
+    <!-- Mini Food Preview in Chat -->
+    <div class="chat-item-context">
+      <img id="chatItemThumb" src="assets/images/maggi.jpg" alt="Item" class="chat-item-thumb">
+      <div class="chat-item-details">
+        <h4 class="chat-item-title" id="chatItemTitle">Double Masala Maggi</h4>
+        <span class="chat-item-price" id="chatItemPrice">₹45</span>
+      </div>
+      <button class="btn btn-primary chat-order-btn" id="inChatOrderBtn">
+        <span>🛒</span>
+        <span>Place Order</span>
+      </button>
+    </div>
+
+    <!-- Chat Message Stream -->
+    <div class="chat-messages-container" id="chatMessagesContainer">
+      <!-- Populated dynamically -->
+    </div>
+
+    <!-- Quick Prompt Suggestions -->
+    <div class="chat-suggestions-row">
+      <button type="button" class="suggestion-chip">👋 Is this still available?</button>
+      <button type="button" class="suggestion-chip">🛵 Can you deliver to my room?</button>
+      <button type="button" class="suggestion-chip">⏱️ How long will it take?</button>
+      <button type="button" class="suggestion-chip">💳 UPI or Cash?</button>
+      <button type="button" class="suggestion-chip">🌶️ Extra spicy please!</button>
+    </div>
+
+    <!-- Chat Input Form -->
+    <form class="chat-input-bar" id="chatForm">
+      <input 
+        type="text" 
+        id="chatMsgInput" 
+        class="chat-input-field" 
+        placeholder="Type a message to room seller..." 
+        autocomplete="off"
+        required
+      >
+      <button type="submit" class="chat-send-btn" aria-label="Send Message">
+        ➤
+      </button>
+    </form>
+  </aside>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Application Script -->
+  <script src="js/app.js"></script>
+</body>
+</html>
